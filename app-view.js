@@ -5,31 +5,31 @@
 //     }
 // });
 
-async function startApp() {
-    try{
-        const arrayOfGames = await getGamesList();
-        console.log(arrayOfGames)
-        for (var i = 0; i < arrayOfGames.length; i++) {
-        createDomElement(arrayOfGames[i]);
-        }
-    } catch {
-        alert('Error!');
-    }
-  }
+// async function startApp() {
+//     try{
+//         const arrayOfGames = await getGamesList();
+//         console.log(arrayOfGames)
+//         for (var i = 0; i < arrayOfGames.length; i++) {
+//         createDomElement(arrayOfGames[i]);
+//         }
+//     } catch {
+//         alert('Error!');
+//     }
+//   }
   
-  startApp();
+//   startApp();
 
 function createDomElement(gameObj){
-    var container1 = document.querySelector('.container');
-    const gameELement = document.createElement("div");
-    gameELement.setAttribute("id", gameObj._id)
-    gameELement.innerHTML = `<h1>${gameObj.title}</h1> 
-                            <img src="${gameObj.imageUrl}" />
-                            <p>${gameObj.description}</p> 
-                            <button class="delete-btn">Delete Game</button>
-                            <button class="update-btn">Edit Game</button>`;                   
+    // var container1 = document.querySelector('.container');
+    // const gameELement = document.createElement("div");
+    // gameELement.setAttribute("id", gameObj._id)
+    // gameELement.innerHTML = `<h1>${gameObj.title}</h1> 
+    //                         <img src="${gameObj.imageUrl}" />
+    //                         <p>${gameObj.description}</p> 
+    //                         <button class="delete-btn">Delete Game</button>
+    //                         <button class="update-btn">Edit Game</button>`;                   
     
-    container1.appendChild(gameELement);
+    // container1.appendChild(gameELement);
 
 
     document.getElementById(`${gameObj._id}`).addEventListener("click", function(event){
