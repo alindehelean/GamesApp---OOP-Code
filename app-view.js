@@ -54,8 +54,6 @@ document.querySelector(".submitBtn").addEventListener("click", function(event){
         urlencoded.append("imageUrl", gameImageUrl.value);
         urlencoded.append("description", gameDescription.value);
 
-        // createGameRequest(urlencoded, createDomElement);
-
         async function appCreateGameRequest(){
             try{
                 const createdGame = await createGameRequest(urlencoded);

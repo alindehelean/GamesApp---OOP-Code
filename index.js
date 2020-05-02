@@ -10,6 +10,7 @@ async function startApp() {
         let games = new Game(arrayOfGames[i]._id, arrayOfGames[i].title, arrayOfGames[i].description, arrayOfGames[i].imageUrl)
         let gameObj = games.createDomElement();
         container1.appendChild(gameObj);
+        games.initEvents();
     }
 }
 

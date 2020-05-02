@@ -14,6 +14,7 @@ Game.prototype.createDomElement = function () {
                             <p>${this.description}</p> 
                             <button class="delete-btn">Delete Game</button>
                             <button class="update-btn">Edit Game</button>`;
+   
     return gameELement;
 
 }
@@ -41,9 +42,9 @@ Game.prototype.createEditForm = function () {
 Game.prototype.eraseGame = function (gameDiv) {
     async function removeGameFromApp() {
         try {
-            const apiresponse = await deleteGame(gameDiv.getAttribute("id"));
+            const apiresponse = await fetchApi.deleteGame(gameDiv.getAttribute("id"));
             console.log(apiresponse);
-            removeElementFromDOM(gameDiv);
+            this.removeElementFromDOM(gameDiv);
         } catch{
             console.log("Error");
         }
@@ -117,16 +118,15 @@ Game.prototype.updateGameInDom = function (gameForm, gameDiv) {
 
 Game.prototype.initEvents = function () {
 
-
     document.getElementById(`${this.id}`).addEventListener("click", (event) => {
         const gameDiv = event.target.parentElement;
-        console.log(event.target);
+        console.log(gameDiv);
         if (event.target.classList.contains('delete-btn')) {
             this.eraseGame(gameDiv);
         } else if (event.target.classList.contains('update-btn')) {
             this.createUpdateForm(gameDiv);
         } else if (event.target.classList.contains('cancelBtn')) {
-            this.removeElementFromDOM(gameDiv);
+            this.removeElementFromDOM(gameDiv.parentElement);
         } else if (event.target.classList.contains('editBtn')) {
             event.preventDefault();
 
