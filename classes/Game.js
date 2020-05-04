@@ -1,10 +1,11 @@
-function Game(id, title, description, image) {
+function Game(id, title, description, image, fetchObj) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.image = image;
-
+    this.fetchObj = fetchObj;
 }
+console.log(Game);
 
 Game.prototype.createDomElement = function () {
     const gameELement = document.createElement("div");
@@ -39,8 +40,8 @@ Game.prototype.createEditForm = function () {
     return updateGameElement;
 }
 
-Game.prototype.eraseGame = function (gameDiv) {
-    async function removeGameFromApp() {
+Game.prototype.eraseGame = async function (gameDiv) {
+    
         try {
             const apiresponse = await fetchApi.deleteGame(gameDiv.getAttribute("id"));
             console.log(apiresponse);
@@ -48,9 +49,9 @@ Game.prototype.eraseGame = function (gameDiv) {
         } catch{
             console.log("Error");
         }
-    }
+    
 
-    removeGameFromApp();
+    
 }
 
 Game.prototype.createUpdateForm = function (gameDiv) {
@@ -83,23 +84,20 @@ Game.prototype.importValues = function (divELement, updateDivElement) {
     newImageUrl.value += copiedGameUrl;
 }
 
-Game.prototype.updateGame = function (updatedGameTitle, updatedGameDescription, updatedGameImage) {
-    var urlEncoded = new URLSearchParams();
-    urlEncoded.append("title", updatedGameTitle);
-    urlEncoded.append("description", updatedGameDescription);
-    urlEncoded.append("imageUrl", updatedGameImage);
-
-    async function appUpdateGameRequest() {
+Game.prototype.updateGame = async function (valueObj) {
+    const urlEncoded = new URLSearchParams();
+    urlEncoded.append("title", valueObj.updatedGameTitle);
+    urlEncoded.append("description", valueObj.updatedGameDescription);
+    urlEncoded.append("imageUrl", valueObj.updatedGameImage);
+    
         try {
-            const updatedResponse = await updateGameRequest(gameELement.getAttribute("id"), urlEncoded)
+            const updatedResponse = await fetchApi.updateGameRequest(`${this.id}`, urlEncoded)
             console.log(updatedResponse);
         } catch {
             console.log("Error");
         }
-    }
-    appUpdateGameRequest();
 }
-
+   
 Game.prototype.updateGameInDom = function (gameForm, gameDiv) {
 
     const gameValues = {
@@ -107,10 +105,9 @@ Game.prototype.updateGameInDom = function (gameForm, gameDiv) {
         updatedGameDescription: gameForm.querySelector('#gameDescription').value,
         updatedGameImage: gameForm.querySelector('#gameImageUrl').value
     }
-
-    gameDiv.querySelector('h1').innerHTML = updatedGameTitle;
-    gameDiv.querySelector('p').innerHTML = updatedGameDescription;
-    gameDiv.querySelector('img').src = updatedGameImage;
+    gameDiv.parentElement.querySelector('h1').innerHTML = gameValues.updatedGameTitle;
+    gameDiv.parentElement.querySelector('p').innerHTML = gameValues.updatedGameDescription;
+    gameDiv.parentElement.querySelector('img').src = gameValues.updatedGameImage;
 
     return gameValues;
 
@@ -132,7 +129,7 @@ Game.prototype.initEvents = function () {
 
             const formImportedValues = this.updateGameInDom(gameDiv, gameDiv.parentElement)
 
-            this.updateGame(formImportedValues.updatedGameTitle, formImportedValues.updatedGameDescription, formImportedValues.updatedGameImage);
+            this.updateGame(formImportedValues);
             this.removeElementFromDOM(gameDiv.parentElement);
         }
 

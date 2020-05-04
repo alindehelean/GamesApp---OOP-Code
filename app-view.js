@@ -1,32 +1,4 @@
 
-function validateFormElement(inputElement, errorMessage){
-    if(inputElement.value === "") {
-        if(!document.querySelector('[rel="' + inputElement.id + '"]')){
-            buildErrorMessage(inputElement, errorMessage);
-        }
-    } else {
-        if(document.querySelector('[rel="' + inputElement.id + '"]')){
-            console.log("the error is erased!");
-            document.querySelector('[rel="' + inputElement.id + '"]').remove();
-            inputElement.classList.remove("inputError");
-        }
-    }
-}
-
-function validateReleaseTimestampElement(inputElement, errorMessage){
-    if(isNaN(inputElement.value) && inputElement.value !== "") {
-        buildErrorMessage(inputElement, errorMessage);
-    }
-}
-
-function buildErrorMessage(inputEl, errosMsg){
-    inputEl.classList.add("inputError");
-    const errorMsgElement = document.createElement("span");
-    errorMsgElement.setAttribute("rel", inputEl.id);
-    errorMsgElement.classList.add("errorMsg");
-    errorMsgElement.innerHTML = errosMsg;
-    inputEl.after(errorMsgElement);
-}
 
 document.querySelector(".submitBtn").addEventListener("click", function(event){
     event.preventDefault();

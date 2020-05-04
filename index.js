@@ -7,7 +7,7 @@ async function startApp() {
     const container1 = document.querySelector('.container');
 
     for (let i = 0; i < arrayOfGames.length; i++) {
-        let games = new Game(arrayOfGames[i]._id, arrayOfGames[i].title, arrayOfGames[i].description, arrayOfGames[i].imageUrl)
+        let games = new Game(arrayOfGames[i]._id, arrayOfGames[i].title, arrayOfGames[i].description, arrayOfGames[i].imageUrl,fetchApi)
         let gameObj = games.createDomElement();
         container1.appendChild(gameObj);
         games.initEvents();

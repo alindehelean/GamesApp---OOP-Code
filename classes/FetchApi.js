@@ -9,7 +9,7 @@ FetchApi.prototype.getGamesList = async function(){
           "Content-Type": "application/x-www-form-urlencoded"
         }
       });
-      const arrayOfGames = response.json();
+      const arrayOfGames = await response.json();
       return arrayOfGames;
 }
 
@@ -17,7 +17,7 @@ FetchApi.prototype.deleteGame = async function(gameID){
     const r = await fetch(`${this.apiUrl}` + "/games/" + `${gameID}`, {
         method: "DELETE"
     });
-    const apiresponse = r.text();
+    const apiresponse = await r.text();
     return apiresponse;
 }
 
@@ -29,7 +29,7 @@ FetchApi.prototype.createGameRequest = async function(gameObj){
         },
         body: gameObj
     });
-    const createdGame = response.json();
+    const createdGame = await response.json();
     return createdGame;
 }
 
@@ -41,6 +41,7 @@ FetchApi.prototype.updateGameRequest= async function(gameid,updatedGameObj){
         },
         body: updatedGameObj
     });
-    const updatedResponse = response.json();
+    const updatedResponse = await response.json();
+    console.log(updatedResponse);
     return updatedResponse; 
 }
