@@ -5,7 +5,7 @@ function Game(id, title, description, image, fetchObj) {
     this.image = image;
     this.fetchObj = fetchObj;
 }
-console.log(Game);
+
 
 Game.prototype.createDomElement = function () {
     const gameELement = document.createElement("div");
