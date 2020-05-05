@@ -1,19 +1,19 @@
-function FetchApi(url){
+function FetchApi(url) {
     this.apiUrl = url;
 }
 
-FetchApi.prototype.getGamesList = async function(){
+FetchApi.prototype.getGamesList = async function () {
     const response = await fetch(`${this.apiUrl}` + "/games", {
         method: "GET",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded"
         }
-      });
-      const arrayOfGames = await response.json();
-      return arrayOfGames;
+    });
+    const arrayOfGames = await response.json();
+    return arrayOfGames;
 }
 
-FetchApi.prototype.deleteGame = async function(gameID){
+FetchApi.prototype.deleteGame = async function (gameID) {
     const r = await fetch(`${this.apiUrl}` + "/games/" + `${gameID}`, {
         method: "DELETE"
     });
@@ -21,7 +21,7 @@ FetchApi.prototype.deleteGame = async function(gameID){
     return apiresponse;
 }
 
-FetchApi.prototype.createGameRequest = async function(gameObj){
+FetchApi.prototype.createGameRequest = async function (gameObj) {
     const response = await fetch(`${this.apiUrl}` + "/games", {
         method: "POST",
         headers: {
@@ -33,7 +33,7 @@ FetchApi.prototype.createGameRequest = async function(gameObj){
     return createdGame;
 }
 
-FetchApi.prototype.updateGameRequest= async function(gameid,updatedGameObj){
+FetchApi.prototype.updateGameRequest = async function (gameid, updatedGameObj) {
     const response = await fetch(`${this.apiUrl}` + "/games/" + `${gameid}`, {
         method: "PUT",
         headers: {
@@ -43,5 +43,5 @@ FetchApi.prototype.updateGameRequest= async function(gameid,updatedGameObj){
     });
     const updatedResponse = await response.json();
     console.log(updatedResponse);
-    return updatedResponse; 
+    return updatedResponse;
 }

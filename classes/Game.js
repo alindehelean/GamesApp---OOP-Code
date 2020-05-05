@@ -15,7 +15,7 @@ Game.prototype.createDomElement = function () {
                             <p>${this.description}</p> 
                             <button class="delete-btn">Delete Game</button>
                             <button class="update-btn">Edit Game</button>`;
-   
+
     return gameELement;
 
 }
@@ -41,17 +41,17 @@ Game.prototype.createEditForm = function () {
 }
 
 Game.prototype.eraseGame = async function (gameDiv) {
-    
-        try {
-            const apiresponse = await fetchApi.deleteGame(gameDiv.getAttribute("id"));
-            console.log(apiresponse);
-            this.removeElementFromDOM(gameDiv);
-        } catch{
-            console.log("Error");
-        }
-    
 
-    
+    try {
+        const apiresponse = await fetchApi.deleteGame(gameDiv.getAttribute("id"));
+        console.log(apiresponse);
+        this.removeElementFromDOM(gameDiv);
+    } catch{
+        console.log("Error");
+    }
+
+
+
 }
 
 Game.prototype.createUpdateForm = function (gameDiv) {
@@ -89,15 +89,15 @@ Game.prototype.updateGame = async function (valueObj) {
     urlEncoded.append("title", valueObj.updatedGameTitle);
     urlEncoded.append("description", valueObj.updatedGameDescription);
     urlEncoded.append("imageUrl", valueObj.updatedGameImage);
-    
-        try {
-            const updatedResponse = await fetchApi.updateGameRequest(`${this.id}`, urlEncoded)
-            console.log(updatedResponse);
-        } catch {
-            console.log("Error");
-        }
+
+    try {
+        const updatedResponse = await fetchApi.updateGameRequest(`${this.id}`, urlEncoded)
+        console.log(updatedResponse);
+    } catch {
+        console.log("Error");
+    }
 }
-   
+
 Game.prototype.updateGameInDom = function (gameForm, gameDiv) {
 
     const gameValues = {

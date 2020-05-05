@@ -1,5 +1,5 @@
-function GameDetails(id, title, description, image, fetchObj, genre, publisher, release){
-    Game.call(this,id, title, description, image, fetchObj)
+function GameDetails(id, title, description, image, fetchObj, genre, publisher, release) {
+    Game.call(this, id, title, description, image, fetchObj)
     this.genre = genre;
     this.publisher = publisher;
     this.release = release;
@@ -20,44 +20,54 @@ GameDetails.prototype.getValuesFromForm = function () {
     return valuesFromForm;
 }
 
-GameDetails.prototype.validateInputs = function (valuesFromForm){
-    validator.validateFormElement(valuesFromForm.gameTitle, "The title is required!");
-    validator.validateFormElement(valuesFromForm.genre, "The genre is required!");
-    validator.validateFormElement(valuesFromForm.gameImageUrl, "The image URL is required!");
-    validator.validateFormElement(valuesFromForm.gameRelease, "The release date is required!");
-    validator.validateReleaseTimestampElement(valuesFromForm.gameRelease, "The release date you provided is not a valid timestamp!");
+GameDetails.prototype.validateInputs = function (valuesFromForm) {
+    const valuesForm = this.getValuesFromForm();
+    validator.validateFormElement(valuesForm.gameTitle, "The title is required!");
+    validator.validateFormElement(valuesForm.gameGenre, "The genre is required!");
+    validator.validateFormElement(valuesForm.gameImageUrl, "The image URL is required!");
+    validator.validateFormElement(valuesForm.gameRelease, "The release date is required!");
+    validator.validateReleaseTimestampElement(valuesForm.gameRelease, "The release date you provided is not a valid timestamp!");
 }
 
-GameDetails.prototype.createGame = async function (){
-        this.getValuesFromForm();
-        this.validateInputs();
-        if(valuesFromForm.gameTitle.value !== "" &&
-            valuesFromForm.gameGenre.value !== "" &&
-            valuesFromForm.gameImageUrl !== "" &&
-            valuesFromForm.gameRelease.value !== ""){
-                const urlencoded = new URLSearchParams();
-                    urlencoded.append("title", valuesFromForm.gameTitle.value);
-                    urlencoded.append("releaseDate", valuesFromForm.gameRelease.value);
-                    urlencoded.append("genre", valuesFromForm.gameGenre.value);
-                    urlencoded.append("publisher", valuesFromForm.gamePublisher.value);
-                    urlencoded.append("imageUrl", valuesFromForm.gameImageUrl);
-                    urlencoded.append("description", valuesFromForm.gameDescription.value);
-            }
-                try{
-                    const createGame = await fetchApi.createGameRequest(urlencoded);
-                    console.log(createGame);
-                    this.createDomElement();
-                
-                }catch {
-                    console.log("error");
-                }
+GameDetails.prototype.createGame = async function () {
+    const valuesFromFormLocal = this.getValuesFromForm();
+    this.validateInputs(valuesFromFormLocal);
+    if (valuesFromFormLocal.gameTitle.value !== "" &&
+        valuesFromFormLocal.gameGenre.value !== "" &&
+        valuesFromFormLocal.gameImageUrl.value !== "" &&
+        valuesFromFormLocal.gameRelease.value !== "") {
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("title", valuesFromFormLocal.gameTitle.value);
+        urlencoded.append("releaseDate", valuesFromFormLocal.gameRelease.value);
+        urlencoded.append("genre", valuesFromFormLocal.gameGenre.value);
+        urlencoded.append("publisher", valuesFromFormLocal.gamePublisher.value);
+        urlencoded.append("imageUrl", valuesFromFormLocal.gameImageUrl.value);
+        urlencoded.append("description", valuesFromFormLocal.gameDescription.value);
+
+        try {
+            const createGame = await fetchApi.createGameRequest(urlencoded);
+            console.log(createGame);
+
+            this.id = createGame.id;
+            this.title = createGame.title;
+            this.description = createGame.description;
+            this.image = createGame.imageUrl;
+
+            const gameDiv = this.createDomElement();
+            document.querySelector(`.container`).appendChild(gameDiv);
+
+        } catch {
+            console.log("error");
+        }
+    }
 
 }
 
-GameDetails.prototype.initCreateGame = function(){
-    document.querySelector(".submitBtn").addEventListener("click", function(event){
+GameDetails.prototype.initCreateGame = function () {
+    const self = this;
+    document.querySelector(".submitBtn").addEventListener("click", function (event) {
         event.preventDefault();
-        this.createGame();
+        self.createGame();
     })
 }
 
